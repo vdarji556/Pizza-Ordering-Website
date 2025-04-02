@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart - Pizza Order{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center text-danger">Your Cart</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <table class="table table-hover text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Image</th>
+                            <th>Pizza</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart_item in cart_items %}
+                        <tr>
+                            <td>
+                                <img src="{{ cart_item.pizza.image.url }}" alt="{{ cart_item.pizza.pizza_name }}" class="img-thumbnail" width="80">
+                            </td>
+                            <td class="align-middle">{{ cart_item.pizza.pizza_name }}</td>
+                            <td class="align-middle">${{ cart_item.pizza.price }}</td>
+                            <td class="align-middle">
+                                <a href="{% url 'decrease_quantity' cart_item.uid %}" class="btn btn-sm btn-warning">-</a>
+                                <span class="mx-2">{{ cart_item.quantity }}</span>
+                                <a href="{% url 'increase_quantity' cart_item.uid %}" class="btn btn-sm btn-success">+</a>
+                            </td>
+                            <td class="align-middle">${{ cart_item.total_price }}</td>
+                            <td class="align-middle">
+                                <a href="{% url 'remove_cart_items' cart_item.uid %}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Remove
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Your cart is empty.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-end">
+                    <h4><strong>Grand Total: ${{ carts.get_cart_total }}</strong></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

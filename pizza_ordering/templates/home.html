@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Pizza Order{% endblock %}
+
+{% block content %}
+<h2 class="text-center text-danger mb-4">Delicious Pizzas 🍕</h2>
+<div class="row mt-4 g-4">
+    {% for pizza in pizzas %}
+    <div class="col-md-4">
+        <div class="card shadow-lg border-0 rounded-3">
+            <img src="{{ pizza.image.url }}" class="card-img-top rounded-top" style="height:220px; object-fit: cover;" alt="{{ pizza.pizza_name }}">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">{{ pizza.pizza_name }}</h5>
+                <h6 class="fw-bold text-success mb-3">Price: ${{ pizza.price }}</h6>
+                <a href="{% url 'add_cart' pizza.uid %}" class="btn btn-warning w-100 add-to-cart" data-uid="{{ pizza.uid }}">
+                    Add to Cart 🛒
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
